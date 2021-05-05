@@ -1,0 +1,23 @@
+[package]
+name = "handlebars-magic"
+version = "0.1.0"
+authors = ["Alexander Korolev <alexander.korolev.germany@gmail.com>"]
+edition = "2018"
+categories = []
+description = """
+Generates documentation from handlebars templates.
+"""
+homepage = "https://github.com/rust-utility/handlebars-magic"
+keywords = []
+license = "Unlicense OR MIT"
+readme = "README.md"
+repository = "https://github.com/rust-utility/handlebars-magic"
+
+[dependencies]
+anyhow = "1.0"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.8"
+structopt = "0.3"
+handlebars = "3.5"
+handlebars_misc_helpers = "0.11"
