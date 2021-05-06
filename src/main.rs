@@ -34,8 +34,27 @@ use std::{
 
 use anyhow::anyhow;
 use cli::Cli;
+use handlebars::{handlebars_helper, Handlebars};
+use handlebars::{Context, Helper, JsonRender, Output, RenderContext, RenderError};
 use log::info;
 use structopt::StructOpt;
+
+fn render(
+    h: &Helper,
+    hbs: &Handlebars,
+    context: &Context,
+    _: &mut RenderContext,
+    out: &mut dyn Output,
+) -> Result<(), RenderError> {
+    let param = h
+        .param(0)
+        .ok_or(RenderError::new("Param 0 is required for format helper."))?;
+    let rendered = hbs
+        .render_template(param.value().render().as_str(), &context.data())
+        .map_err(|_err| RenderError::new("Cannot render template"))?;
+    out.write(rendered.as_ref())?;
+    Ok(())
+}
 
 fn main() -> anyhow::Result<()> {
     env_logger::init();
@@ -54,7 +73,18 @@ fn main() -> anyhow::Result<()> {
     let mut dirs = VecDeque::new();
     dirs.push_back(cli.input.clone());
 
-    let handlebars = handlebars_misc_helpers::new_hbs();
+    let mut handlebars = handlebars_misc_helpers::new_hbs();
+
+    handlebars_helper!(from: |f: str, c: str| {
+        if let Some(pos) = c.find(f) {
+            &c[pos..]
+        } else {
+            c
+        }
+    });
+    handlebars.register_helper("from", Box::new(from));
+
+    handlebars.register_helper("render", Box::new(render));
 
     while !dirs.is_empty() {
         let dir = dirs.pop_front().unwrap();
@@ -69,7 +99,11 @@ fn main() -> anyhow::Result<()> {
                 } else {
                     info!("{:?} -> {:?}", path, target);
                     let mut input = File::open(path)?;
-                    let output = OpenOptions::new().write(true).truncate(true).open(target)?;
+                    let output = OpenOptions::new()
+                        .create(true)
+                        .write(true)
+                        .truncate(true)
+                        .open(target)?;
                     handlebars.render_template_source_to_write(&mut input, &(), output)?;
                 }
             }
