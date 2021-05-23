@@ -11,7 +11,7 @@ Dual-licensed under `MIT` or the [UNLICENSE](http://unlicense.org/).
 
 ## Usage
 
-    handlebars-magic 0.3.0
+    handlebars-magic 0.3.1
     Generates documentation from handlebars templates
 
     USAGE:
@@ -53,7 +53,7 @@ This does not look useful until we use it in conjuction with other helper such a
 
 ### `codeblock`
 
-Allows to insert markdown's fanced code block. Content would be trimmed.
+Allows to insert markdown's fenced code block. Content would be trimmed.
 
     {{ codeblock "bash" "echo test" }}
 

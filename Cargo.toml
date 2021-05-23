@@ -1,6 +1,6 @@
 [package]
 name = "handlebars-magic"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Alexander Korolev <alexander.korolev.germany@gmail.com>"]
 edition = "2018"
 categories = ["command-line-utilities", "development-tools", "template-engine"]
