@@ -1,8 +1,8 @@
 [package]
 name = "handlebars-magic"
-version = "0.3.1"
+version = "0.4.0"
 authors = ["Alexander Korolev <alexander.korolev.germany@gmail.com>"]
-edition = "2018"
+edition = "2021"
 categories = ["command-line-utilities", "development-tools", "template-engine"]
 description = """
 Generates documentation from handlebars templates.
@@ -17,7 +17,7 @@ repository = "https://github.com/rust-utility/handlebars-magic"
 anyhow = "1.0"
 thiserror = "1.0"
 log = "0.4"
-env_logger = "0.8"
+env_logger = "0.9"
 structopt = "0.3"
-handlebars = "3.5"
-handlebars_misc_helpers = "0.11"
+handlebars = "4.2"
+handlebars_misc_helpers = "0.12"

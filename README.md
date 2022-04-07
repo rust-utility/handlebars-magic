@@ -10,19 +10,22 @@ Dual-licensed under `MIT` or the [UNLICENSE](http://unlicense.org/).
 
 ## Usage
 
-    handlebars-magic 0.3.1
-    Generates documentation from handlebars templates
+```
+handlebars-magic 0.4.0
+Generates documentation from handlebars templates
 
-    USAGE:
-        handlebars-magic <input> <output>
+USAGE:
+    handlebars-magic <input> <output>
 
-    FLAGS:
-        -h, --help       Prints help information
-        -V, --version    Prints version information
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
 
-    ARGS:
-        <input>     The input folder with templates
-        <output>    The output folder
+ARGS:
+    <input>     The input folder with templates
+    <output>    The output folder
+
+```
 
 ## Supported helpers
 
@@ -61,6 +64,16 @@ renders to:
     ```bash
     echo test
     ```
+
+### `exec`
+
+Allows to include output of command.
+
+    {{ exec "echo test" }}
+
+renders to:
+
+    test
 
 ### `handlebars_misc_helpers`
 
