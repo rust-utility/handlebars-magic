@@ -1,4 +1,3 @@
-/*!
 # Generates documentation from handlebars templates
 
 ## Legal
@@ -12,20 +11,7 @@ Dual-licensed under `MIT` or the [UNLICENSE](http://unlicense.org/).
 ## Usage
 
 ```
-handlebars-magic 0.4.0
-Generates documentation from handlebars templates
-
-USAGE:
-    handlebars-magic <input> <output>
-
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
-
-ARGS:
-    <input>     The input folder with templates
-    <output>    The output folder
-
+{{ exec "handlebars-magic --help" }}
 ```
 
 ## Supported helpers
@@ -34,7 +20,7 @@ ARGS:
 
 Searches for the prefix and starts with it if found. Else returns the whole string.
 
-    {{ from "begin" "prefix begin text end" }}
+    \{{ from "begin" "prefix begin text end" }}
 
 renders to:
 
@@ -44,7 +30,7 @@ renders to:
 
 Processes an argument as `handlebars`'s template.
 
-    {{ render "some handlebars template" }}
+    \{{ render "some handlebars template" }}
 
 renders to:
 
@@ -52,13 +38,13 @@ renders to:
 
 This does not look useful until we use it in conjuction with other helper such as `read_to_str` from [handlebars_misc_helpers](https://crates.io/crates/handlebars_misc_helpers):
 
-    {{ render ( read_to_str "templates/README.md" ) }}
+    \{{ render ( read_to_str "templates/README.md" ) }}
 
 ### `codeblock`
 
 Allows to insert markdown's fenced code block. Content would be trimmed.
 
-    {{ codeblock "bash" "echo test" }}
+    \{{ codeblock "bash" "echo test" }}
 
 renders to:
 
@@ -70,7 +56,7 @@ renders to:
 
 Allows to include output of command.
 
-    {{ exec "echo test" }}
+    \{{ exec "echo test" }}
 
 renders to:
 
@@ -79,8 +65,3 @@ renders to:
 ### `handlebars_misc_helpers`
 
 All helpers from [handlebars_misc_helpers](https://crates.io/crates/handlebars_misc_helpers).
-*/
-
-fn main() -> anyhow::Result<()> {
-    handlebars_magic::process()
-}
