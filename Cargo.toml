@@ -19,8 +19,7 @@ log = "0.4"
 env_logger = "0.11"
 clap = { version = "4.5", default-features = false, features = ["derive", "help", "std", "usage"] }
 handlebars = "5.1"
-handlebars_misc_helpers = { version = "0.15", default-features = false, features = ["http_reqwest", "json", "string"] }
-reqwest = { version = "0.11", default-features = false, features = ["json", "native-tls", "native-tls-vendored"] }
+handlebars_misc_helpers = { version = "0.15", default-features = false, features = ["http_attohttpc", "json", "string"] }
 
 # workaround for https://github.com/cross-rs/cross/issues/1345
 [package.metadata.cross.target.x86_64-unknown-netbsd]
