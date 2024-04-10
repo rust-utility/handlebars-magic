@@ -1,4 +1,4 @@
-# Generates documentation from handlebars templates
+# Quickly and flexibly generate content based on handlebars templates
 
 ## Legal
 
@@ -14,11 +14,19 @@ Dual-licensed under `MIT` or the [UNLICENSE](http://unlicense.org/).
 {{ exec "handlebars-magic --help" }}
 ```
 
+For each file in the input folder, a corresponding file will be created in the output folder.
+
+For example, this project generates updated documentation using the following call:
+
+```
+handlebars-magic templates .
+```
+
 ## Supported helpers
 
 ### `from`
 
-Searches for the prefix and starts with it if found. Else returns the whole string.
+Searches for the prefix and starts with it if it is found. Otherwise, the entire string is returned.
 
     \{{ from "begin" "prefix begin text end" }}
 

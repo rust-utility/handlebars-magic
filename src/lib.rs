@@ -7,11 +7,14 @@ use std::{
 };
 
 use anyhow::{anyhow, Result};
-use cli::Cli;
-use handlebars::{handlebars_helper, Handlebars};
-use handlebars::{Context, Helper, JsonRender, Output, RenderContext, RenderError};
+use clap::Parser;
+use handlebars::{
+    handlebars_helper, Context, Handlebars, Helper, HelperResult, JsonRender, Output,
+    RenderContext, RenderErrorReason,
+};
 use log::info;
-use structopt::StructOpt;
+
+use cli::Cli;
 
 fn render(
     h: &Helper,
@@ -19,13 +22,13 @@ fn render(
     context: &Context,
     _: &mut RenderContext,
     out: &mut dyn Output,
-) -> Result<(), RenderError> {
-    let param = h
-        .param(0)
-        .ok_or_else(|| RenderError::new("Param 0 is required for format helper."))?;
+) -> HelperResult {
+    let param = h.param(0).ok_or_else(|| {
+        RenderErrorReason::ParamNotFoundForIndex("Param 0 is required for format helper.", 0)
+    })?;
     let rendered = hbs
         .render_template(param.value().render().as_str(), &context.data())
-        .map_err(|_err| RenderError::new("Cannot render template"))?;
+        .map_err(|_err| RenderErrorReason::Other("Cannot render template".into()))?;
     out.write(rendered.as_ref())?;
     Ok(())
 }
@@ -36,35 +39,39 @@ fn exec(
     _context: &Context,
     _: &mut RenderContext,
     out: &mut dyn Output,
-) -> Result<(), RenderError> {
+) -> HelperResult {
     let exe = h
         .param(0)
-        .ok_or_else(|| RenderError::new("Param 0 is required for format helper."))?
+        .ok_or_else(|| {
+            RenderErrorReason::ParamNotFoundForIndex("Param 0 is required for format helper.", 0)
+        })?
         .value()
         .render();
+
     let cmd: Vec<&str> = exe.split(' ').collect();
+
     if let Some((exe, args)) = cmd.split_first() {
         let output = Command::new(exe).args(args).output()?;
         if output.status.success() {
-            out.write(&String::from_utf8_lossy(&output.stdout))?;
+            out.write(&String::from_utf8_lossy(&output.stdout))
+                .map_err(RenderErrorReason::from)
         } else {
-            return Err(RenderError::new(format!(
+            Err(RenderErrorReason::Other(format!(
                 "Cannot run '{}': {}",
                 exe,
                 String::from_utf8_lossy(&output.stderr)
-            )));
+            )))
         }
     } else {
-        return Err(RenderError::new("Cannot render template"));
+        Err(RenderErrorReason::Other("Cannot render template".into()))
     }
-
-    Ok(())
+    .map_err(From::from)
 }
 
 pub fn process() -> Result<()> {
     env_logger::init();
 
-    let cli = Cli::from_args();
+    let cli = Cli::parse();
 
     if !cli.input.is_dir() {
         return Err(anyhow!(

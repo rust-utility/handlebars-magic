@@ -1,8 +1,10 @@
 use std::path::PathBuf;
-use structopt::StructOpt;
+
+use clap::Parser;
 
 /// Generates documentation from handlebars templates.
-#[derive(StructOpt)]
+#[derive(Parser)]
+#[command(version)]
 pub struct Cli {
     /// The input folder with templates
     pub input: PathBuf,

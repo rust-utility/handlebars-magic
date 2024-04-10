@@ -1,4 +1,4 @@
-# Generates documentation from handlebars templates
+# Quickly and flexibly generate content based on handlebars templates
 
 ## Legal
 
@@ -11,27 +11,33 @@ Dual-licensed under `MIT` or the [UNLICENSE](http://unlicense.org/).
 ## Usage
 
 ```
-handlebars-magic 0.4.0
 Generates documentation from handlebars templates
 
-USAGE:
-    handlebars-magic <input> <output>
+Usage: handlebars-magic <INPUT> <OUTPUT>
 
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+Arguments:
+  <INPUT>   The input folder with templates
+  <OUTPUT>  The output folder
 
-ARGS:
-    <input>     The input folder with templates
-    <output>    The output folder
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
 
+```
+
+For each file in the input folder, a corresponding file will be created in the output folder.
+
+For example, this project generates updated documentation using the following call:
+
+```
+handlebars-magic templates .
 ```
 
 ## Supported helpers
 
 ### `from`
 
-Searches for the prefix and starts with it if found. Else returns the whole string.
+Searches for the prefix and starts with it if it is found. Otherwise, the entire string is returned.
 
     {{ from "begin" "prefix begin text end" }}
 
