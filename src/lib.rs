@@ -95,6 +95,14 @@ pub fn process() -> Result<()> {
         }
     });
     handlebars.register_helper("from", Box::new(from));
+    handlebars_helper!(to: |f: str, c: str| {
+        if let Some(pos) = c.find(f) {
+            &c[..pos]
+        } else {
+            c
+        }
+    });
+    handlebars.register_helper("to", Box::new(to));
 
     handlebars.register_helper("render", Box::new(render));
 

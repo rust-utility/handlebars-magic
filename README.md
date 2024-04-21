@@ -45,6 +45,16 @@ renders to:
 
     begin text end
 
+### `to`
+
+Searches for the prefix and starts with it if it is found. Otherwise, the entire string is returned.
+
+    {{ to ")" "hello)" }}
+
+renders to:
+
+    hello
+
 ### `render`
 
 Processes an argument as `handlebars`'s template.
